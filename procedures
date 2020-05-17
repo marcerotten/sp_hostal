@@ -139,6 +139,7 @@ CREATE OR REPLACE PROCEDURE SP_LEE_EMPRESA(
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      ----------------------------------------------
    0.1    		17/05/2020     MARCELA VERGARA          1. LEER INFO EMPRESA
+   0.2    		17/05/2020     MARCELA VERGARA          2. LEER CAMPO ACTIVO
    
 ***************************************************************************************************************/
     
@@ -155,6 +156,7 @@ BEGIN
             E.DIRECCION,
             E.TELEFONO,
             E.MAIL,
+			E.ACTIVO,
             U.USERNAME,
 			H.NOMBRE AS HOTEL
         FROM HOSTAL.EMPRESA E
@@ -169,3 +171,5 @@ BEGIN
             OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
 
 END SP_LEE_EMPRESA;
+
+

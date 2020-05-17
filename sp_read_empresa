@@ -1,0 +1,46 @@
+-- PROCEDIMIENTO QUE LEE DATOS
+
+CREATE OR REPLACE PROCEDURE SP_LEE_EMPRESA(
+  IN_EMPRESA IN NUMBER,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER,
+  OUT_NOMBRE_CURSOR OUT SYS_REFCURSOR  
+) AS
+/**************************************************************************************************************
+   NAME:       	SP_LEE_EMPRESA
+   PURPOSE		LEE DATOS EMPRESA
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		17/05/2020     MARCELA VERGARA          1. LEER INFO EMPRESA
+   
+***************************************************************************************************************/
+    
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_LEE_EMPRESA ejecutado exitosamente';
+
+
+    OPEN OUT_NOMBRE_CURSOR FOR
+        SELECT
+            E.NOMBRE,
+            E.RUT,
+            E.DIRECCION,
+            E.TELEFONO,
+            E.MAIL,
+            U.USERNAME,
+			H.NOMBRE AS HOTEL
+        FROM HOSTAL.EMPRESA E
+		JOIN LOGIN U ON (E.ID_USUARIO = U.ID_USUARIO)
+		JOIN HOTEL H ON (E.ID_HOTEL = H.ID_HOTEL)
+		WHERE ID_EMPRESA = IN_EMPRESA;
+  
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_LEE_EMPRESA;
