@@ -1,0 +1,33 @@
+create or replace PROCEDURE SP_DESACTIVA_EMPRESA(
+  IN_EMPRESA IN NUMBER,
+  IN_ACTIVO IN VARCHAR2,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+
+/**************************************************************************************************************
+   NAME:       	SP_DESACTIVA_EMPRESA
+   PURPOSE		DESACTIVA UNA EMPRESA
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.2    		17/05/2020     MARCELA VERGARA       	1. DESACTIVA EMPRESA
+   
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_DESACTIVA_EMPRESA ejecutado exitosamente';
+
+  UPDATE HOSTAL.EMPRESA SET
+	ACTIVO = IN_ACTIVO
+	WHERE ID_EMPRESA = IN_EMPRESA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_DESACTIVA_EMPRESA;

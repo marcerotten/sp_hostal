@@ -1,0 +1,39 @@
+create or replace PROCEDURE SP_ACTUALIZA_EMPRESA(
+  IN_EMPRESA IN NUMBER,
+  IN_NOMBRE IN VARCHAR2,
+  IN_DIRECCION IN VARCHAR2,
+  IN_TELEFONO IN NUMBER,
+  IN_MAIL IN VARCHAR2,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_ACTUALIZA_EMPRESA
+   PURPOSE		ACTUALIZA DATOS EMPRESA
+
+   REVISIONS:
+   Ver          Date           Author                     Description
+   ---------    ----------     -------------------        ----------------------------------------------
+   0.1    		17/05/2020     MARCELA VERGARA            1. ACTUALIZA DATOS EMPRESA
+   
+***************************************************************************************************************/
+
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_ACTUALIZA_EMPRESA ejecutado exitosamente';
+
+    UPDATE HOSTAL.EMPRESA SET
+      NOMBRE = IN_NOMBRE,
+	  DIRECCION = IN_DIRECCION,
+	  TELEFONO = IN_TELEFONO,
+	  MAIL = IN_MAIL
+      WHERE ID_EMPRESA = IN_EMPRESA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_ACTUALIZA_EMPRESA;
