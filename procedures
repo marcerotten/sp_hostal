@@ -132,7 +132,7 @@ CREATE OR REPLACE PROCEDURE SP_LEE_EMPRESA(
   OUT_NOMBRE_CURSOR OUT SYS_REFCURSOR  
 ) AS
 /**************************************************************************************************************
-   NAME:       	SP_NOMBRE_PROCEDIMIENTO
+   NAME:       	SP_LEE_EMPRESA
    PURPOSE		LEE DATOS EMPRESA
 
    REVISIONS:
