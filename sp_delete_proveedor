@@ -1,5 +1,5 @@
-create or replace PROCEDURE SP_DESACTIVA_EMPRESA(
-  IN_ID_USUARIO_EMPRESA IN NUMBER,
+create or replace PROCEDURE SP_DESACTIVA_PROVEEDOR(
+  IN_ID_USUARIO_PROVEEDOR IN NUMBER,
   IN_ACTIVO IN VARCHAR2,
   OUT_GLOSA OUT VARCHAR2,
   OUT_ESTADO OUT NUMBER
@@ -7,28 +7,27 @@ create or replace PROCEDURE SP_DESACTIVA_EMPRESA(
 
 
 /**************************************************************************************************************
-   NAME:       	SP_DESACTIVA_EMPRESA
-   PURPOSE		DESACTIVA UNA EMPRESA
+   NAME:       	SP_DESACTIVA_PROVEEDOR
+   PURPOSE		DESACTIVA UN PROVEEDOR
 
    REVISIONS:
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      ----------------------------------------------
-   0.1    		17/05/2020     MARCELA VERGARA       	1. DESACTIVA EMPRESA
-   0.2    		17/05/2020     MARCELA VERGARA       	1. DESACTIVA EMPRESA DESDE TABLA LOGIN
-   
+   0.1    		23/05/2020     MARCELA VERGARA       	1. DESACTIVA PROVEEDOR
+    
 ***************************************************************************************************************/
 
 BEGIN
     OUT_ESTADO := 0;
-    OUT_GLOSA := 'SP_DESACTIVA_EMPRESA ejecutado exitosamente';
+    OUT_GLOSA := 'SP_DESACTIVA_PROVEEDOR ejecutado exitosamente';
 
   UPDATE HOSTAL.LOGIN SET
 	ACTIVO = IN_ACTIVO
-	WHERE ID_USUARIO = IN_ID_USUARIO_EMPRESA;
+	WHERE ID_USUARIO = IN_ID_USUARIO_PROVEEDOR;
 
     EXCEPTION
         WHEN OTHERS THEN
             OUT_ESTADO := -1;
             OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
 
-END SP_DESACTIVA_EMPRESA;
+END SP_DESACTIVA_PROVEEDOR;
