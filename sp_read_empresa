@@ -15,6 +15,7 @@ CREATE OR REPLACE PROCEDURE SP_LEE_EMPRESA(
    ---------    ----------     -------------------      ----------------------------------------------
    0.1    		17/05/2020     MARCELA VERGARA          1. LEER INFO EMPRESA
    0.2    		17/05/2020     MARCELA VERGARA          2. LEER CAMPO ACTIVO
+   0.3    		17/05/2020     MARCELA VERGARA          2. LEER CAMPO ACTIVO DESDE TABLA LOGIN
    
 ***************************************************************************************************************/
     
@@ -31,7 +32,7 @@ BEGIN
             E.DIRECCION,
             E.TELEFONO,
             E.MAIL,
-			E.ACTIVO,
+			U.ACTIVO,
             U.USERNAME,
 			H.NOMBRE AS HOTEL
         FROM HOSTAL.EMPRESA E

@@ -13,7 +13,8 @@ create or replace PROCEDURE SP_DESACTIVA_EMPRESA(
    REVISIONS:
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      ----------------------------------------------
-   0.2    		17/05/2020     MARCELA VERGARA       	1. DESACTIVA EMPRESA
+   0.1    		17/05/2020     MARCELA VERGARA       	1. DESACTIVA EMPRESA
+   0.2    		17/05/2020     MARCELA VERGARA       	1. DESACTIVA EMPRESA DESDE TABLA LOGIN
    
 ***************************************************************************************************************/
 

@@ -22,6 +22,7 @@ create or replace PROCEDURE SP_CREA_EMPRESA(
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      -------------------------------------------------------
    0.1   		17/05/2020     MARCELA VERGARA       	1. CREA UN REGISTRO EN LA TABLA EMPRESA
+   0.2   		23/05/2020     MARCELA VERGARA       	1. ACTIVO AL USUARIO EN EL CAMPO ACTIVO DE LOGIN
    
 ***************************************************************************************************************/
 
@@ -34,13 +35,15 @@ BEGIN
 		ID_USUARIO,
 		USERNAME,
 		PASSWORD,
-		ID_PERFIL
+		ID_PERFIL,
+		ACTIVO
 	)
 	 VALUES (
 		HOSTAL.LOGIN_SEQ.NEXTVAL,
 		IN_USERNAME,
 		IN_PASSWORD,
-		IN_PERIL
+		IN_PERIL,
+		'Y'
 		
 	 ) RETURNING ID_USUARIO INTO OUT_ID_USUARIO;
 	
