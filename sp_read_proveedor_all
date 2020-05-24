@@ -1,0 +1,36 @@
+-- PROCEDIMIENTO QUE LEE DATOS
+
+CREATE OR REPLACE PROCEDURE SP_LEE_PROVEEDOR_ALL(
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER,
+  OUT_NOMBRE_CURSOR OUT SYS_REFCURSOR  
+) AS
+/**************************************************************************************************************
+   NAME:       	SP_LEE_PROVEEDOR_ALL
+   PURPOSE		LEE DATOS PROVEEDOR
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		23/05/2020     MARCELA VERGARA          1. LEER INFO DE TODOS LOS PROVEEDORES
+   
+***************************************************************************************************************/
+    
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_LEE_PROVEEDOR_ALL ejecutado exitosamente';
+
+
+    OPEN OUT_NOMBRE_CURSOR FOR
+        SELECT P.NOMBRE,P.APELLIDO,P.RUT,P.TELEFONO,P.MAIL,R.DESCRIPCION AS RUBRO,L.ACTIVO 
+		FROM PROVEEDOR P
+		JOIN RUBRO R ON R.ID_RUBRO = P.ID_RUBRO
+		JOIN LOGIN L ON L.ID_USUARIO = P.ID_USUARIO;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_LEE_PROVEEDOR_ALL;
