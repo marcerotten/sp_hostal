@@ -3,6 +3,7 @@ create or replace PROCEDURE SP_CREA_PROVEEDOR(
 	IN_APELLIDO IN VARCHAR2,
     IN_RUT IN VARCHAR2,
     IN_TELEFONO IN NUMBER,
+	IN_MAIL IN VARCHAR2,
     IN_USERNAME IN VARCHAR2,
     IN_PASSWORD IN VARCHAR2,
     IN_PERIL IN NUMBER,
@@ -21,6 +22,7 @@ create or replace PROCEDURE SP_CREA_PROVEEDOR(
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      -------------------------------------------------------
    0.1   		23/05/2020     MARCELA VERGARA       	1. CREA UN REGISTRO EN LA TABLA PROVEEDOR
+   0.2   		23/05/2020     MARCELA VERGARA       	1. AGREGO CAMPO MAIL
    
 ***************************************************************************************************************/
 
@@ -51,6 +53,7 @@ BEGIN
 		APELLIDO,
         RUT,
         TELEFONO,
+		MAIL,
 		ID_RUBRO,
         ID_USUARIO
    )
@@ -60,6 +63,7 @@ BEGIN
 	  IN_APELLIDO,
       IN_RUT,
       IN_TELEFONO,
+	  IN_MAIL,
       IN_RUBRO,
       OUT_ID_USUARIO
     ) RETURNING ID_PROVEEDOR INTO OUT_ID_SALIDA;
