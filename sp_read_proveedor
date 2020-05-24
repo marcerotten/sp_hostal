@@ -14,6 +14,7 @@ CREATE OR REPLACE PROCEDURE SP_LEE_PROVEEDOR(
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      ----------------------------------------------
    0.1    		23/05/2020     MARCELA VERGARA          1. LEER INFO PROVEEDOR
+   0.2    		23/05/2020     MARCELA VERGARA          1. AGREGO LEER INFO MAIL
    
 ***************************************************************************************************************/
     
@@ -24,7 +25,7 @@ BEGIN
 
 
     OPEN OUT_NOMBRE_CURSOR FOR
-        SELECT P.NOMBRE,P.APELLIDO,P.RUT,P.TELEFONO,R.DESCRIPCION AS RUBRO,L.ACTIVO 
+        SELECT P.NOMBRE,P.APELLIDO,P.RUT,P.TELEFONO,P.MAIL,R.DESCRIPCION AS RUBRO,L.ACTIVO 
 		FROM PROVEEDOR P
 		JOIN RUBRO R ON R.ID_RUBRO = P.ID_RUBRO
 		JOIN LOGIN L ON L.ID_USUARIO = P.ID_USUARIO;
