@@ -1,0 +1,39 @@
+-- PROCEDIMIENTO QUE LEE DATOS
+
+CREATE OR REPLACE PROCEDURE SP_LEE_MENU(
+  IN_MENU IN NUMBER,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER,
+  OUT_CUR_LEE_MENU OUT SYS_REFCURSOR  
+) AS
+/**************************************************************************************************************
+   NAME:       	SP_LEE_MENU
+   PURPOSE		LEE DATOS MENU
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		25/05/2020     MARCELA VERGARA          1. LEER INFO TABLA MENU
+  
+***************************************************************************************************************/
+    
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_LEE_MENU ejecutado exitosamente';
+
+
+    OPEN OUT_CUR_LEE_MENU FOR
+    SELECT M.DESCRIPCION, TM.PRECIO, TM.DESCRIPCION AS TIPO, PM.DESCRIPCION AS DIA 
+		FROM MENU M
+    JOIN PERIODO_MENU PM ON  M.ID_MENU = PM.ID_MENU
+		JOIN TIPO_MENU TM ON TM.ID_TIPO_MENU = M.ID_TIPO_MENU	
+		WHERE M.ID_MENU = IN_MENU;
+  
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_LEE_MENU;
