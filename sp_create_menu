@@ -1,0 +1,55 @@
+create or replace PROCEDURE SP_CREA_MENU(
+    IN_DESCRIPCION_MENU IN VARCHAR2,
+    IN_TIPO_MENU IN NUMBER,
+	IN_DESCRIPCION_PERIODO IN VARCHAR2,
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_MENU
+   PURPOSE		CREA MENU
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		25/05/2020     MARCELA VERGARA       	1. CREA UN REGISTRO EN LA TABLA MENU
+   
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_MENU ejecutado exitosamente';
+    
+	
+	INSERT INTO HOSTAL.MENU(
+        ID_MENU,
+        DESCRIPCION,
+        ID_TIPO_MENU
+   )
+    VALUES (
+      HOSTAL.MENU_SEQ.NEXTVAL,
+	  IN_DESCRIPCION_MENU,
+	  IN_TIPO_MENU
+      
+    ) RETURNING ID_MENU INTO OUT_ID_SALIDA;
+	
+	INSERT INTO HOSTAL.PERIODO_MENU(
+        ID_PERIODO_MENU,
+        DESCRIPCION,
+        ID_MENU
+   )
+    VALUES (
+      HOSTAL.PERIODO_MENU_SEQ.NEXTVAL,
+	  IN_DESCRIPCION_PERIODO,
+	  OUT_ID_SALIDA
+      
+    ) RETURNING ID_PERIODO_MENU INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_MENU;
