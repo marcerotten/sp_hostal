@@ -1,0 +1,42 @@
+create or replace PROCEDURE SP_CREA_TIPO_MENU(
+    IN_DESCRIPCION IN VARCHAR2,
+    IN_PRECIO IN NUMBER,    
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_TIPO_MENU
+   PURPOSE		CREA EL TIPO DE MENU
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		24/05/2020     MARCELA VERGARA       	1. CREA UN REGISTRO EN LA TABLA TIPO MENU
+   
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_TIPO_MENU ejecutado exitosamente';
+    
+	
+	INSERT INTO HOSTAL.TIPO_MENU(
+        ID_TIPO_MENU,
+        DESCRIPCION,
+        PRECIO
+   )
+    VALUES (
+      HOSTAL.TIPO_MENU_SEQ.NEXTVAL,
+	  IN_DESCRIPCION,
+	  IN_PRECIO
+      
+    ) RETURNING ID_TIPO_MENU INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_TIPO_MENU;
