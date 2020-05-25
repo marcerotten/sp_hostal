@@ -4,7 +4,7 @@ CREATE OR REPLACE PROCEDURE SP_LEE_TIPO_MENU(
   IN_TIPO_MENU IN NUMBER,
   OUT_GLOSA OUT VARCHAR2,
   OUT_ESTADO OUT NUMBER,
-  OUT_NOMBRE_CURSOR OUT SYS_REFCURSOR  
+  OUT_CUR_LEE_TIPOMENU OUT SYS_REFCURSOR  
 ) AS
 /**************************************************************************************************************
    NAME:       	SP_LEE_TIPO_MENU
@@ -14,6 +14,7 @@ CREATE OR REPLACE PROCEDURE SP_LEE_TIPO_MENU(
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      ----------------------------------------------
    0.1    		25/05/2020     MARCELA VERGARA          1. LEER INFO TABLA TIPO MENU
+   0.2    		25/05/2020     MARCELA VERGARA          1. CAMBIAR NOMBRE DE CURSOR
   
 ***************************************************************************************************************/
     
@@ -23,7 +24,7 @@ BEGIN
     OUT_GLOSA := 'SP_LEE_TIPO_MENU ejecutado exitosamente';
 
 
-    OPEN OUT_NOMBRE_CURSOR FOR
+    OPEN OUT_CUR_LEE_TIPOMENU FOR
         SELECT
             DESCRIPCION,
 			PRECIO
