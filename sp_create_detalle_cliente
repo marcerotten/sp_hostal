@@ -1,0 +1,46 @@
+create or replace PROCEDURE SP_CREA_DETALLE_CLIENTE(
+    IN_ID_CLIENTE IN NUMBER,
+    IN_FECHA_SALIDA IN VARCHAR2,
+    IN_HABITACION IN NUMBER,    
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_DETALLE_CLIENTE
+   PURPOSE		CREA EL INGRESO DE UN CLIENTE
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		24/05/2020     MARCELA VERGARA       	1. CREA UN REGISTRO EN LA TABLA DETALLE CLIENTE
+   
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_DETALLE_CLIENTE ejecutado exitosamente';
+    
+	
+	INSERT INTO HOSTAL.DETALLE_CLIENTE(
+        ID_DETALLE_CLIENTE,
+        ID_CLIENTE,
+        FECHA_INGRESO,
+        FECHA_SALIDA,
+        ID_HABITACION
+   )
+    VALUES (
+      HOSTAL.DETALLE_CLIENTE_SEQ.NEXTVAL,
+      IN_ID_CLIENTE,
+      (SELECT TO_DATE(SysDate,'DD/MM/YY') FROM DUAL),
+      TO_DATE(IN_FECHA_SALIDA,'DD/MM/YY'),
+      IN_HABITACION
+    ) RETURNING ID_DETALLE_CLIENTE INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_DETALLE_CLIENTE;
