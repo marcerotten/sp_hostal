@@ -1,0 +1,30 @@
+CREATE OR REPLACE PROCEDURE SP_ELIMINA_TIPO_MENU(
+  IN_TIPO_MENU IN NUMBER,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+
+/**************************************************************************************************************
+   NAME:       	SP_ELIMINA_TIPO_MENU
+   PURPOSE		ELIMINA DATO DE TABLA TIPO_MENU
+
+   REVISIONS:
+   Ver          Date           Author                  Description
+   ---------    ----------     -------------------     ----------------------------------------------
+   0.1          25/05/2020     MARCELA VERGARA         1. ELIMINA REGISTRO TIPO_MENU
+    
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_ELIMINA_TIPO_MENU ejecutado exitosamente';
+
+    DELETE FROM HOSTAL.TIPO_MENU WHERE ID_TIPO_MENU = IN_TIPO_MENU;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_ELIMINA_TIPO_MENU;
