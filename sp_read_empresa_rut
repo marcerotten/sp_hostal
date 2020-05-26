@@ -1,0 +1,45 @@
+create or replace PROCEDURE SP_LEE_EMPRESA_RUT(
+  IN_EMPRESA_RUT IN VARCHAR2,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER,
+  OUT_NOMBRE_CURSOR OUT SYS_REFCURSOR  
+) AS
+/**************************************************************************************************************
+   NAME:       	SP_LEE_EMPRESA_RUT
+   PURPOSE		LEE DATOS EMPRESA POR RUT
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		26/05/2020     MARCELA VERGARA          1. LEER INFO EMPRESA POR RUT
+
+***************************************************************************************************************/
+    
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_LEE_EMPRESA_RUT ejecutado exitosamente';
+
+
+    OPEN OUT_NOMBRE_CURSOR FOR
+        SELECT
+            E.NOMBRE,
+            E.RUT,
+            E.DIRECCION,
+            E.TELEFONO,
+            E.MAIL,
+			U.ACTIVO,
+            U.USERNAME,
+			H.NOMBRE AS HOTEL
+        FROM HOSTAL.EMPRESA E
+		JOIN LOGIN U ON (E.ID_USUARIO = U.ID_USUARIO)
+		JOIN HOTEL H ON (E.ID_HOTEL = H.ID_HOTEL)
+		WHERE E.RUT = IN_EMPRESA_RUT;
+  
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_LEE_EMPRESA_RUT;
