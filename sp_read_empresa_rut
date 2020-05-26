@@ -12,6 +12,7 @@ create or replace PROCEDURE SP_LEE_EMPRESA_RUT(
    Ver          Date           Author                   Description
    ---------    ----------     -------------------      ----------------------------------------------
    0.1    		26/05/2020     MARCELA VERGARA          1. LEER INFO EMPRESA POR RUT
+   0.2    		26/05/2020     MARCELA VERGARA          1. ELIMINO CAMPO ACTIVO AGREGO PERFIL Y PASS
 
 ***************************************************************************************************************/
     
@@ -22,17 +23,19 @@ BEGIN
 
 
     OPEN OUT_NOMBRE_CURSOR FOR
-        SELECT
+         SELECT
             E.NOMBRE,
             E.RUT,
             E.DIRECCION,
             E.TELEFONO,
             E.MAIL,
-			U.ACTIVO,
             U.USERNAME,
-			H.NOMBRE AS HOTEL
+            U.PASSWORD,
+            P.NOMBRE AS PERFIL,
+            H.NOMBRE AS HOTEL
         FROM HOSTAL.EMPRESA E
 		JOIN LOGIN U ON (E.ID_USUARIO = U.ID_USUARIO)
+    JOIN PERFIL P ON P.ID_PERFIL = U.ID_PERFIL
 		JOIN HOTEL H ON (E.ID_HOTEL = H.ID_HOTEL)
 		WHERE E.RUT = IN_EMPRESA_RUT;
   
