@@ -1,0 +1,52 @@
+create or replace PROCEDURE "SP_ACTUALIZA_EMPRESA_ALL" (
+  IN_ID_USUARIO IN VARCHAR2,
+  IN_NOMBRE IN VARCHAR2,
+  IN_RUT IN VARCHAR2,
+  IN_DIRECCION IN VARCHAR2,
+  IN_TELEFONO IN NUMBER,
+  IN_MAIL IN VARCHAR2,
+  IN_USERNAME IN VARCHAR2,
+  IN_PASSWORD IN VARCHAR2,
+  IN_PERFIL IN NUMBER,
+  IN_HOTEL IN NUMBER,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_ACTUALIZA_EMPRESA_ALL
+   PURPOSE		ACTUALIZA TODOS LOS DATOS DE LA EMPRESA
+
+   REVISIONS:
+   Ver          Date           Author                     Description
+   ---------    ----------     -------------------        ----------------------------------------------
+   0.1    		26/05/2020     ALEJANDRO CONTRERAS        1. ACTUALIZA DATOS EMPRESA
+
+***************************************************************************************************************/
+
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_ACTUALIZA_EMPRESA_ALL ejecutado exitosamente';
+
+    UPDATE HOSTAL.EMPRESA SET
+    NOMBRE = IN_NOMBRE,
+    RUT = IN_RUT,
+    DIRECCION = IN_DIRECCION,
+    TELEFONO = IN_TELEFONO,
+    MAIL = IN_MAIL,
+    ID_HOTEL = IN_HOTEL
+    WHERE id_usuario = IN_ID_USUARIO;
+
+    UPDATE HOSTAL.LOGIN L SET
+    L.USERNAME = IN_USERNAME,
+    L.PASSWORD = IN_PASSWORD,
+    L.ID_PERFIL = IN_PERFIL
+    WHERE l.id_usuario = IN_ID_USUARIO;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_ACTUALIZA_EMPRESA_ALL;

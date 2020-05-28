@@ -1,0 +1,48 @@
+create or replace PROCEDURE SP_CREA_PRODUCTO(
+    IN_CATEGORIA IN NUMBER,
+    IN_DETALLE_PRODUCTO IN NUMBER,
+    IN_DESCRIPCION IN VARCHAR2,
+    IN_PRECIO IN NUMBER, 
+    IN_STOCK IN NUMBER,
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_PRODUCTO
+   PURPOSE:		CREAR UN PRODUCTO
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		23/05/2020     MAXIMAR MANRIQUE       	1. CREA UN REGISTRO EN LA TABLA PRODUCTO
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_PRODUCTO ejecutado exitosamente';
+
+	INSERT INTO HOSTAL.PRODUCTO(
+        ID_PRODUCTO,
+        ID_CATEGORIA,
+        ID_DETALLE_PRODUCTO,
+        DESCRIPCION,
+        PRECIO,
+        STOCK
+   )
+    VALUES (
+        HOSTAL.PRODUCTO_SEQ.NEXTVAL,
+        IN_CATEGORIA,
+        IN_DETALLE_PRODUCTO,
+        IN_DESCRIPCION,
+        IN_PRECIO,
+        IN_STOCK
+    ) RETURNING ID_PRODUCTO INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_PRODUCTO;

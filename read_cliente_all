@@ -1,0 +1,38 @@
+create or replace PROCEDURE SP_LEE_CLIENTE_ALL(
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER,
+  OUT_NOMBRE_CURSOR OUT SYS_REFCURSOR  
+) AS
+/**************************************************************************************************************
+   NAME:       	SP_LEE_CLIENTE
+   PURPOSE		LEE DATOS CLIENTE
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		23/05/2020     MAXIMAR MANRIQUE         1. LEER INFO CLIENTE TODOS
+
+***************************************************************************************************************/
+
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_LEE_CLIENTE_ALL ejecutado exitosamente';
+
+
+    OPEN OUT_NOMBRE_CURSOR FOR
+        SELECT
+            C.NOMBRE,
+            C.APELLIDO,
+            C.RUT,
+            C.TELEFONO,
+            E.NOMBRE AS EMPRESA
+        FROM HOSTAL.CLIENTE C
+		JOIN EMPRESA E ON (C.ID_EMPRESA = E.ID_EMPRESA);
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_LEE_CLIENTE_ALL;

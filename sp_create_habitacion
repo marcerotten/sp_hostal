@@ -1,0 +1,45 @@
+create or replace PROCEDURE SP_CREA_HABITACION(
+    IN_TIPO_CAMA IN NUMBER,
+    IN_PRECIO IN NUMBER,
+    IN_ESTADO IN NUMBER,
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_HABITACION
+   PURPOSE		CREA UNA HABITACION
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		23/05/2020     JOEL PADILLA       	1. CREA UN REGISTRO EN LA TABLA HABITACION
+
+
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_HABITACION ejecutado exitosamente';
+
+
+	INSERT INTO HOSTAL.HABITACION(
+        ID_HABITACION,
+        ID_TIPO_CAMA,
+        PRECIO,
+        ID_ESTADO_HAB
+   )
+    VALUES (
+      HOSTAL.HABITACION_SEQ.NEXTVAL,
+      IN_TIPO_CAMA,
+      IN_PRECIO,
+      IN_ESTADO
+    ) RETURNING ID_HABITACION INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_HABITACION;

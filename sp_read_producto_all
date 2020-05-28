@@ -1,0 +1,37 @@
+create or replace PROCEDURE SP_LEE_PRODUCTO_ALL(
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER,
+  OUT_NOMBRE_CURSOR OUT SYS_REFCURSOR  
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_LEE_PRODUCTO_ALL
+   PURPOSE		LEE TODOS PRODUCTOS
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		23/05/2020     MAXIMAR MANRIQUE         1. LEER INFO TODOS PRODUCTO
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_LEE_PRODUCTO ejecutado exitosamente';
+
+    OPEN OUT_NOMBRE_CURSOR FOR
+        SELECT
+            P.ID_CATEGORIA AS CATEGORIA,
+            P.ID_DETALLE_PRODUCTO AS DETALLE,
+            P.DESCRIPCION,
+            P.PRECIO,
+            P.STOCK
+        FROM HOSTAL.PRODUCTO P
+		JOIN CATEGORIA C ON (C.ID_CATEGORIA = P.ID_CATEGORIA)
+        JOIN DETALLE_PRODUCTO D ON (D.ID_DETALLE_PRODUCTO = P.ID_DETALLE_PRODUCTO);
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_LEE_PRODUCTO_ALL;

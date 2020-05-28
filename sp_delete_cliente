@@ -1,0 +1,43 @@
+create or replace PROCEDURE SP_DESACTIVA_CLIENTE(
+  IN_ID_CLIENTE IN NUMBER,
+  IN_ACTIVO IN VARCHAR2,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+TEMPUSER INT;
+
+/**************************************************************************************************************
+   NAME:       	SP_DESACTIVA_CLIENTE
+   PURPOSE		DESACTIVA UNA CLIENTE
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		23/05/2020     MAXIMAR MANRIQUE       	1. DESACTIVA CLIENTE
+
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_DESACTIVA_CLIENTE ejecutado exitosamente';
+
+/* SE HACE UN SELECT ANTES PARA OBTENER EL ID DE USUARIO A DESACTIVAR Y SE CREA VARIABLE TEMPUSER PARA ALMACENAR
+CLIENTE -> EMPRESA -> LOGIN
+*/
+    SELECT
+        E.ID_USUARIO AS USUARIO
+    INTO TEMPUSER
+    FROM HOSTAL.CLIENTE C
+    JOIN EMPRESA E ON (C.ID_EMPRESA = E.ID_EMPRESA)
+    WHERE C.ID_CLIENTE = IN_ID_CLIENTE;
+
+    UPDATE HOSTAL.LOGIN SET
+        ACTIVO = IN_ACTIVO
+        WHERE ID_USUARIO = TEMPUSER;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_DESACTIVA_CLIENTE;

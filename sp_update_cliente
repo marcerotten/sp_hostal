@@ -1,0 +1,41 @@
+create or replace PROCEDURE "SP_ACTUALIZA_CLIENTE" (
+  IN_CLIENTE IN NUMBER,
+  IN_NOMBRE IN VARCHAR2,
+  IN_APELLIDO IN VARCHAR2,
+  IN_RUT IN VARCHAR2,
+  IN_TELEFONO IN NUMBER,
+  IN_EMPRESA IN NUMBER,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_ACTUALIZA_CLIENTE
+   PURPOSE		ACTUALIZA DATOS CLIENTE
+
+   REVISIONS:
+   Ver          Date           Author                     Description
+   ---------    ----------     -------------------        ----------------------------------------------
+   0.1    		23/05/2020     MAXIMAR MANRIQUE            1. ACTUALIZA DATOS CLIENTE
+
+***************************************************************************************************************/
+
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_ACTUALIZA_CLIENTE ejecutado exitosamente';
+
+    UPDATE HOSTAL.CLIENTE SET
+      NOMBRE = IN_NOMBRE,
+	  APELLIDO = IN_APELLIDO,
+      RUT = IN_RUT,
+	  TELEFONO = IN_TELEFONO,
+      ID_EMPRESA = IN_EMPRESA
+      WHERE ID_CLIENTE = IN_CLIENTE;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_ACTUALIZA_CLIENTE;

@@ -1,0 +1,48 @@
+create or replace PROCEDURE SP_CREA_CLIENTE(
+    IN_NOMBRE IN VARCHAR2,
+    IN_APELLIDO IN VARCHAR2,
+    IN_RUT IN VARCHAR2,
+    IN_TELEFONO IN NUMBER,
+    IN_EMPRESA IN NUMBER,  
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_CLIENTE
+   PURPOSE:		CREA UN CLIENTE
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		23/05/2020     MAXIMAR MANRIQUE       	1. CREA UN REGISTRO EN LA TABLA CLIENTE 
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_CLIENTE ejecutado exitosamente';
+
+	INSERT INTO HOSTAL.CLIENTE(
+        ID_CLIENTE,
+        NOMBRE,
+        APELLIDO,
+        RUT,
+        TELEFONO,
+        ID_EMPRESA
+   )
+    VALUES (
+      HOSTAL.CLIENTE_SEQ.NEXTVAL,
+      IN_NOMBRE,
+      IN_APELLIDO,
+      IN_RUT,
+      IN_TELEFONO,
+      IN_EMPRESA
+    ) RETURNING ID_CLIENTE INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_CLIENTE;

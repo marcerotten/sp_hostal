@@ -1,0 +1,37 @@
+create or replace PROCEDURE "SP_ACTUALIZA_HABITACION" (
+    IN_HABITACION IN NUMBER,
+    IN_TIPO_CAMA IN NUMBER,
+    IN_PRECIO IN NUMBER,
+    IN_ESTADO IN NUMBER,
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_ACTUALIZA_HABITACION
+   PURPOSE		ACTUALIZA DATOS HABITACION
+
+   REVISIONS:
+   Ver          Date           Author                     Description
+   ---------    ----------     -------------------        ----------------------------------------------
+   0.1    		23/05/2020     JOEL PADILLA               1. ACTUALIZA DATOS HABITACION
+
+***************************************************************************************************************/
+
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_ACTUALIZA_HABITACION ejecutado exitosamente';
+
+    UPDATE HOSTAL.HABITACION SET
+      ID_TIPO_CAMA = IN_TIPO_CAMA,
+      PRECIO = IN_PRECIO,      
+	  ID_ESTADO_HAB = IN_ESTADO
+      WHERE ID_HABITACION = IN_HABITACION;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_ACTUALIZA_HABITACION;

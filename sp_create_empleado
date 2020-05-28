@@ -1,0 +1,76 @@
+create or replace PROCEDURE SP_CREA_EMPLEADO(
+    IN_NOMBRE IN VARCHAR2,
+    IN_APELLIDO IN VARCHAR2,
+    IN_RUT IN VARCHAR2,
+    IN_TELEFONO IN NUMBER,
+    IN_MAIL IN VARCHAR2,
+    IN_HOTEL IN NUMBER,
+    IN_USERNAME IN VARCHAR2,
+    IN_PASSWORD IN VARCHAR2,
+    IN_PERFIL IN NUMBER,
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER,
+	OUT_ID_USUARIO OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_EMPLEADO
+   PURPOSE		CREA UNA EMPLEADO
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		23/05/2020     JOEL PADILLA       	1. CREA UN REGISTRO EN LA TABLA EMPLEADO
+
+
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_EMPLEADO ejecutado exitosamente';
+
+
+	INSERT INTO HOSTAL.LOGIN(
+		ID_USUARIO,
+		USERNAME,
+		PASSWORD,
+		ID_PERFIL,
+		ACTIVO
+	)
+	 VALUES (
+		HOSTAL.LOGIN_SEQ.NEXTVAL,
+		IN_USERNAME,
+		IN_PASSWORD,
+		IN_PERFIL,
+		'Y'
+
+	 ) RETURNING ID_USUARIO INTO OUT_ID_USUARIO;
+
+	INSERT INTO HOSTAL.EMPLEADO(
+        ID_EMPLEADO,
+        NOMBRE,
+        APELLIDO,
+        RUT,
+        TELEFONO,
+        MAIL,
+        ID_HOTEL,
+        ID_USUARIO
+   )
+    VALUES (
+      HOSTAL.EMPLEADO_SEQ.NEXTVAL,
+      IN_NOMBRE,
+      IN_APELLIDO,
+      IN_RUT,
+      IN_TELEFONO,
+      IN_MAIL,
+      IN_HOTEL,
+      OUT_ID_USUARIO
+    ) RETURNING ID_EMPLEADO INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_EMPLEADO;

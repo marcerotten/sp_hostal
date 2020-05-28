@@ -1,0 +1,31 @@
+create or replace PROCEDURE SP_DESACTIVA_PRODUCTO(
+  IN_ID_PRODUCTO IN NUMBER,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_DESACTIVA_PRODUCTO
+   PURPOSE		DESACTIVA UN PRODUCTO
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		23/05/2020     MAXIMAR MANRIQUE       	1. DESACTIVA PRODUCTO
+
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_DESACTIVA_PRODUCTO ejecutado exitosamente';
+
+    UPDATE HOSTAL.PRODUCTO SET
+        STOCK = 0
+        WHERE ID_PRODUCTO = IN_ID_PRODUCTO;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_DESACTIVA_PRODUCTO;

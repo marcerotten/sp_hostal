@@ -1,0 +1,33 @@
+create or replace PROCEDURE SP_DESACTIVA_HABITACION(
+  IN_HABITACION IN NUMBER,
+  IN_ESTADO IN VARCHAR2,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+
+/**************************************************************************************************************
+   NAME:       	SP_DESACTIVA_HABITACION
+   PURPOSE		DESACTIVA UNA HABITACION
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		23/05/2020     JOEL PADILLA      	   1. DESACTIVA HABITACION
+
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_DESACTIVA_HABITACION ejecutado exitosamente';
+
+  UPDATE HOSTAL.HABITACION SET
+	ID_ESTADO_HAB = IN_ESTADO
+	WHERE ID_HABITACION = IN_HABITACION;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_DESACTIVA_HABITACION;
