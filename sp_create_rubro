@@ -1,0 +1,39 @@
+create or replace PROCEDURE SP_CREA_RUBRO(
+    IN_DESCRIPCION_RUBRO IN VARCHAR2,
+    OUT_GLOSA OUT VARCHAR2,
+    OUT_ESTADO OUT NUMBER,
+    OUT_ID_SALIDA OUT NUMBER
+) AS
+
+/**************************************************************************************************************
+   NAME:       	SP_CREA_RUBRO
+   PURPOSE		CREA RUBRO
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      -------------------------------------------------------
+   0.1   		31/05/2020     MARCELA VERGARA       	1. CREA UN REGISTRO EN LA TABLA RUBRO
+
+
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_CREA_RUBRO ejecutado exitosamente';
+
+
+	INSERT INTO HOSTAL.RUBRO(
+        ID_RUBRO,
+        DESCRIPCION
+   )
+    VALUES (
+      HOSTAL.RUBRO_SEQ.NEXTVAL,
+      IN_DESCRIPCION_RUBRO
+    ) RETURNING ID_RUBRO INTO OUT_ID_SALIDA;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_CREA_RUBRO;

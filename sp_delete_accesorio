@@ -1,0 +1,30 @@
+create or replace PROCEDURE SP_ELIMINA_ACCESORIO(
+  IN_ID_ACCESORIO IN NUMBER,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER
+) AS
+
+
+/**************************************************************************************************************
+   NAME:       	SP_ELIMINA_ACCESORIO
+   PURPOSE		ELIMINA DATO DE TABLA ACCESORIO
+
+   REVISIONS:
+   Ver          Date           Author                  Description
+   ---------    ----------     -------------------     ----------------------------------------------
+   0.1          30/05/2020     MARCELA VERGARA         1. ELIMINA REGISTRO ACCESORIO
+
+***************************************************************************************************************/
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_ELIMINA_ACCESORIO ejecutado exitosamente';
+
+    DELETE FROM HOSTAL.ACCESORIO WHERE ID_ACCESORIO = IN_ID_ACCESORIO;
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_ELIMINA_ACCESORIO;

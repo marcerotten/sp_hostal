@@ -1,0 +1,41 @@
+create or replace PROCEDURE SP_LEE_PERFIL_ACTIVO(
+  IN_USERNAME IN VARCHAR2,
+  IN_PASSWORD IN VARCHAR2,
+  OUT_GLOSA OUT VARCHAR2,
+  OUT_ESTADO OUT NUMBER,
+  OUT_CUR_LEE_PERFIL_ACTIVO OUT SYS_REFCURSOR  
+) AS
+/**************************************************************************************************************
+   NAME:       	SP_LEE_PERFIL_ACTIVO
+   PURPOSE		LEE ACCESORIOS
+
+   REVISIONS:
+   Ver          Date           Author                   Description
+   ---------    ----------     -------------------      ----------------------------------------------
+   0.1    		30/05/2020     MARCELA VERGARA          1. LEER PERFIL ACTIVO
+
+***************************************************************************************************************/
+
+
+BEGIN
+    OUT_ESTADO := 0;
+    OUT_GLOSA := 'SP_LEE_PERFIL_ACTIVO ejecutado exitosamente';
+
+
+    OPEN OUT_CUR_LEE_PERFIL_ACTIVO FOR
+        SELECT 
+        P.NOMBRE,
+        L.ACTIVO
+        FROM HOSTAL.LOGIN L 
+        JOIN HOSTAL.PERFIL P 
+        ON L.ID_PERFIL = P.ID_PERFIL
+        WHERE USERNAME = IN_USERNAME 
+        AND PASSWORD = IN_PASSWORD;
+
+
+    EXCEPTION
+        WHEN OTHERS THEN
+            OUT_ESTADO := -1;
+            OUT_GLOSA := HOSTAL.FN_GET_GLOSA_ERROR;
+
+END SP_LEE_PERFIL_ACTIVO;
